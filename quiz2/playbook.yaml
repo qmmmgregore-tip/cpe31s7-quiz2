@@ -1,0 +1,33 @@
+---
+- name: Change MOTD
+  hosts: target
+
+
+  tasks:
+  - name: Change MOTD
+    ansible.builtin.copy:
+      dest: /etc/motd
+      content: "Ansible Managed by 1520377"
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: Create a github user name
+    ansible.builtin.user:
+      name: qmmmgregore-tip
+      state: present
+      password: AnsibleManaged
+
+
+  - name: Passwordless sudoer user
+    ansible.builtin.lineinfile:
+      path: '/etc/sudoers'
+      line: 'qmmmgregore-tip ALL=(ALL) NOPASSWD: ALL'
+      state: present
+
+
+  - name: Created group named sysad2
+    ansible.builtin.group:
+      name: sysad2
+      state: present
